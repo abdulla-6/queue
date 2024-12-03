@@ -1,0 +1,113 @@
+#include <iostream>
+using namespace std;
+
+void insert();
+void del();
+void display();
+void search(int);
+
+struct node {
+    int data;
+    node* link;
+};
+
+node* nn, * first = nullptr, * last = nullptr, * temp;
+
+int main() {
+    int choice;
+    cout << "Enter any number 1 for adding  2 for deleteing  3 for display 4 for searching -1 for exit: ";
+    cin >> choice;
+
+    while (choice != -1) {
+        switch (choice) {
+        case 1:
+            insert();
+            display();
+            break;
+        case 2:
+            del();
+            display();
+            break;
+        case 3:
+            display();
+            break;
+        case 4:
+            int x;
+            cout << "Enter element to be searched: ";
+            cin >> x;
+            search(x);
+            break;
+        default:
+            cout << "Invalid !!!\n";
+        }
+        cout << "Enter any number 1 for Insert 2 for Delete 3 for display 4 for searching -1 for exit: ";
+        cin >> choice;
+    }
+    return 0;
+}
+
+void insert() {
+    int data;
+    cout << "Enter data: ";
+    cin >> data;
+
+    nn = new node;
+    nn->data = data;
+    nn->link = nullptr;
+
+    if (first == nullptr) {
+        first = nn;
+        last = nn;
+    } else {
+        last->link = nn;
+        last = nn;
+    }
+}
+
+void del() {
+    if (first != nullptr) {
+        temp = first;
+        first = first->link;
+        delete temp;
+        if (first == nullptr) {
+            last = nullptr;
+        }
+    } else {
+        cout << "empty!\n";
+    }
+}
+
+void display() {
+    int count = 1;
+    temp = first;
+    if (temp == nullptr) {
+        cout << "empty\n";
+        return;
+    }
+
+    while (temp != nullptr) {
+        cout << "Node #" << count << " | Data: " << temp->data << " | Address: " << temp->link << "\n";
+        temp = temp->link;
+        count++;
+    }
+}
+
+void search(int x) {
+    int count = 1;
+    temp = first;
+    bool found = false;
+
+    while (temp != nullptr) {
+        if (temp->data == x) {
+            cout << "The data you searched for is found at Node #" << count << "\n";
+            found = true;
+            break;
+        }
+        temp = temp->link;
+        count++;
+    }
+
+    if (!found) {
+        cout << "The data you are searching for is not found!\n";
+    }
+}
